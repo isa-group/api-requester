@@ -38,17 +38,17 @@ services:
         container_name: microservice-one
         image: alesancor1/api-requester
         ports:
-            - "8080:8080"
+            - "8080:80"
     microservice-two:
         container_name: microservice-two
         image: alesancor1/api-requester
         ports:
-            - "8081:8080"
+            - "8081:80"
     microservice-three:
         container_name: microservice-three
         image: alesancor1/api-requester
         ports:
-            - "8082:8080"
+            - "8082:80"
 ```
 
 ### Making requests
@@ -72,7 +72,7 @@ Additionally, having deployed multiple instances of the API, you can make reques
 
 ```json
 [{
-    "url": "http://localhost:8081",
+    "url": "http://localhost:8081/api/v1/request",
     "method": "POST",
     "headers": {
         "Content-Type": "application/json"
