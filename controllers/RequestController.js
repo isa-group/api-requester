@@ -8,10 +8,8 @@ export function requestUrl(_, res) {
             res.status(200).send(responses.map((response) => {
                 return {code: response.status, data: response.data};
             }));
-        }).catch((errors) => {
-            res.status(500).send(errors.map((error) => {
-                return {code: error.response.status, data: error.response.data};
-            }));
+        }).catch((error) => {
+            res.status(error.response.status).send({code: error.response.status, data: error.response.data});
         });
     } else {
         return request(res.locals.oas.body)
