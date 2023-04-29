@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: API Requester
+  description: Service that makes requests to an API
+
+paths:
+  /api/v1/request:
+    post:
+      x-router-controller: RequestController
+      description: Returns a single test by its key
+      operationId: requestUrl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/request'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/request'
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/response'
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/response'
+components:
+  schemas:
+    request:
+        type: object
+        required:
+          - url
+        properties:
+          url:
+            type: string
+          method:
+            type: string
+          headers:
+            type: object
+          body:
+            type: object
+    response:
+      type: object
+      required:
+        - data
+        - code
+      properties:
+        code:
+          type: number
+        data:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+          - type: object
+          - type: array
+            items: {}
