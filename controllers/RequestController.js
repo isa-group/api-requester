@@ -22,16 +22,21 @@ export function requestUrl(_, res) {
 }
 
 function request(requestBody) {
-    const { url, method, headers, body} = requestBody;
+    const { url, method, headers, body, prob} = requestBody;
     
-    logger.debug(`Requesting ${method?.toUpperCase() ?? 'GET'}: ${url}`);
-    logger.debug(`Headers: ${JSON.stringify(headers, null, 2)}`);
-    logger.debug(`Body: ${JSON.stringify(body, null, 2)}`);
+    if (!prob || (prob && Math.random() * 100 < prob)){
+        logger.debug(`Requesting ${method?.toUpperCase() ?? 'GET'}: ${url}`);
+        logger.debug(`Headers: ${JSON.stringify(headers, null, 2)}`);
+        logger.debug(`Body: ${JSON.stringify(body, null, 2)}`);
 
-    return axios({
-        method: method?.toUpperCase() ?? 'GET',
-        url: `${url}`,
-        data: body,
-        headers: headers
-    });
+        return axios({
+            method: method?.toUpperCase() ?? 'GET',
+            url: `${url}`,
+            data: body,
+            headers: headers
+        });
+    } else {
+        logger.debug(`NOT requesting ${method?.toUpperCase() ?? 'GET'}: ${url}`);
+        return {code: 200, data: `Request ${method?.toUpperCase() ?? 'GET'}: ${url} not sent`}
+    }
 }
